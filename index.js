@@ -15,7 +15,7 @@ function addBookToLibrary() {
   let name = prompt("Book name?");
   let author = prompt("Book author?");
   let pages = prompt("Book pages?");
-  let status = prompt("Book status?");
+  let status = "not read";
   let newBook = new Book(name, author, pages, status);
 
   let newBookCard = document.createElement("div");
@@ -40,6 +40,13 @@ function addBookToLibrary() {
   deleteButton.addEventListener("click", function () {
     deleteBook(newBookCard);
   });
+  // Create a change status button
+  let statusButton = document.createElement("button");
+  statusButton.textContent = "Change Status";
+  statusButton.classList.add("status-btn");
+  statusButton.addEventListener("click", function () {
+    changeStatus(newBookCard, cardStatus);
+  });
 
   // Append all elements to the new book card
   newBookCard.append(
@@ -47,7 +54,8 @@ function addBookToLibrary() {
     cardAuthor,
     cardPages,
     cardStatus,
-    deleteButton
+    deleteButton,
+    statusButton
   );
   document.querySelector(".library").appendChild(newBookCard);
 
@@ -65,4 +73,11 @@ function deleteBook(card) {
   for (let i = index; i < myLibrary.length; i++) {
     myLibrary[i].number = i;
   }
+}
+function changeStatus(card, cardStatus) {
+  const index = card.number;
+  const book = myLibrary[index];
+  book.status = book.status === "not read" ? "read" : "not read";
+
+  cardStatus.textContent = `Status: ${book.status}`;
 }
